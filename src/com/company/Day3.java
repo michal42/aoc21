@@ -1,7 +1,5 @@
 package com.company;
 
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +12,7 @@ public class Day3 extends Puzzle {
     }
 
     @Override
-    public long runIt() {
+    public int runIt() {
         return runItB();
     }
 
@@ -59,7 +57,7 @@ public class Day3 extends Puzzle {
         throw new IllegalArgumentException("ambiguous set");
     }
 
-    private long runItB() {
+    private int runItB() {
         List<Integer> numbers = new ArrayList<>();
         for (var line : lines) {
             numbers.add(Integer.parseInt(line, 2));
