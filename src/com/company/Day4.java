@@ -81,7 +81,7 @@ public class Day4 extends Puzzle {
     }
 
     @Override
-    public int runIt() {
+    public long runIt() {
         for (var d : draws) {
             System.out.println("draw: " + d);
             var it = bingos.listIterator();

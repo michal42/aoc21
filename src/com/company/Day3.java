@@ -12,7 +12,7 @@ public class Day3 extends Puzzle {
     }
 
     @Override
-    public int runIt() {
+    public long runIt() {
         return runItB();
     }
 

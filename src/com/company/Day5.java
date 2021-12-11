@@ -1,7 +1,6 @@
 package com.company;
 
 import java.util.List;
-import java.util.jar.JarEntry;
 import java.util.stream.Stream;
 
 public class Day5 extends Puzzle {
@@ -92,7 +91,7 @@ public class Day5 extends Puzzle {
     }
 
     @Override
-    public int runIt() {
+    public long runIt() {
         return map.countOverlaps();
     }
 }
