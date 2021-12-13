@@ -19,7 +19,7 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Puzzle p = new Day9(input);
+        Puzzle p = new Day10(input);
         System.out.println(p.runIt());
     }
 }
