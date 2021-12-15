@@ -15,11 +15,13 @@ public class Day7 extends Puzzle {
     private int[] crabs;
 
     @Override
-    public long runIt() {
-        /*
+    public long runPartOne() {
         int median = crabs[crabs.length / 2];
         return Arrays.stream(crabs).boxed().mapToInt(i -> Math.abs(i - median)).sum();
-         */
+    }
+
+    @Override
+    public long runPartTwo() {
         int max = crabs[crabs.length - 1];
         var consumption = IntStream.range(0, max + 1).map(i -> i * (i + 1) / 2).toArray();
         var candidates = new int[max + 1];

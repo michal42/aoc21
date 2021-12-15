@@ -32,62 +32,62 @@ public class Day12 extends Puzzle {
         return id < numSmall;
     }
 
-    private long countPaths(String start, String end) {
+    private long countPaths(String start, String end, boolean doExtraVisits) {
         var startId = nodeIds.get(start);
         var endId = nodeIds.get(end);
 
-        long res = 0;
-        // -1 for the solution without free visits
-        for (int i = -1; i < numSmall; i++) {
+        long res = countPaths(startId, endId, new BitSet(), new BitSet());
+        if (!doExtraVisits) {
+            return res;
+        }
+        for (int i = 0; i < numSmall; i++) {
             if (i == startId || i == endId) {
                 continue;
             }
-            var visited = new BitSet();
-            var freeVisits = new BitSet();
+            var extra = new BitSet();
             if (i >= 0) {
-                freeVisits.set(i);
+                extra.set(i);
             }
-            Stack<String> path = new Stack<>();
-            res += countPaths(startId, endId, visited, freeVisits);
+            res += countPaths(startId, endId, new BitSet(), extra);
         }
         return res;
     }
 
-    private long countPaths(int from, int to, BitSet visited, BitSet freeVisits) {
+    private long countPaths(int from, int to, BitSet visited, BitSet extraVisits) {
         if (from == to) {
-            // Ensure that we actually used the free visits
-            if (freeVisits.isEmpty()) {
+            // Ensure that we actually used the extra visits
+            if (extraVisits.isEmpty()) {
                 return 1;
             } else {
                 return 0;
             }
         }
-        boolean clearVisit = false;
-        boolean clearFreeVisit = false;
+        boolean popVisit = false;
+        boolean popExtraVisit = false;
         if (isSmall(from)) {
             if (visited.get(from)) {
-                if (freeVisits.get(from)) {
-                    freeVisits.clear(from);
-                    clearFreeVisit = true;
+                if (extraVisits.get(from)) {
+                    extraVisits.clear(from);
+                    popExtraVisit = true;
                 } else {
                     return 0;
                 }
             } else {
                 visited.set(from);
-                clearVisit = true;
+                popVisit = true;
             }
         }
         int res = 0;
         for (int i = 0; i < numAll; i++) {
             if (adjacent[from][i]) {
-                res += countPaths(i, to, visited, freeVisits);
+                res += countPaths(i, to, visited, extraVisits);
             }
         }
-        if (clearVisit) {
+        if (popVisit) {
             visited.clear(from);
         }
-        if (clearFreeVisit) {
-            freeVisits.set(from);
+        if (popExtraVisit) {
+            extraVisits.set(from);
         }
         return res;
     }
@@ -98,7 +98,12 @@ public class Day12 extends Puzzle {
     private boolean[][] adjacent;
 
     @Override
-    public long runIt() {
-        return countPaths("start", "end");
+    public long runPartOne() {
+        return countPaths("start", "end", false);
+    }
+
+    @Override
+    public long runPartTwo() {
+        return countPaths("start", "end", true);
     }
 }

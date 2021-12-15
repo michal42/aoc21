@@ -12,62 +12,77 @@ public class Day11 extends  Puzzle {
         int y = 0;
         for (var l : lines) {
             assert l.length() == WIDTH;
-            grid[y++] = Arrays.stream(l.split("")).mapToInt(Integer::parseInt).toArray();
+            initialGrid[y++] = Arrays.stream(l.split("")).mapToInt(Integer::parseInt).toArray();
         }
     }
 
     private static final int WIDTH = 10;
     private static final int HEIGHT = 10;
-    int[][] grid = new int[HEIGHT][];
+    int[][] initialGrid = new int[HEIGHT][];
 
-    private int charge(int x, int y) {
-        if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT) {
-            return 0;
+    private class Octopuses {
+        public Octopuses() {
+            grid = Arrays.stream(initialGrid).map(a -> a.clone()).toArray(int[][]::new);
         }
-        int res = 0;
-        if (++grid[y][x] == 10) {
-            res++;
-            res += charge(x - 1, y - 1);
-            res += charge(x, y - 1);
-            res += charge(x + 1, y - 1);
 
-            res += charge(x - 1, y);
-            res += charge(x + 1, y);
+        private int charge(int x, int y) {
+            if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT) {
+                return 0;
+            }
+            int res = 0;
+            if (++grid[y][x] == 10) {
+                res++;
+                res += charge(x - 1, y - 1);
+                res += charge(x, y - 1);
+                res += charge(x + 1, y - 1);
 
-            res += charge(x - 1, y + 1);
-            res += charge(x, y + 1);
-            res += charge(x + 1, y + 1);
+                res += charge(x - 1, y);
+                res += charge(x + 1, y);
+
+                res += charge(x - 1, y + 1);
+                res += charge(x, y + 1);
+                res += charge(x + 1, y + 1);
+            }
+            return res;
         }
-        return res;
-    }
 
-    private void adjust(int x, int y) {
-        if (grid[y][x] > 9) {
-            grid[y][x] = 0;
-        }
-    }
-
-    private int step() {
-        int res = 0;
-
-        for (int x = 0; x < WIDTH; x++) {
-            for (int y = 0; y < HEIGHT; y++) {
-                adjust(x, y);
+        private void adjust(int x, int y) {
+            if (grid[y][x] > 9) {
+                grid[y][x] = 0;
             }
         }
-        for (int x = 0; x < WIDTH; x++) {
-            for (int y = 0; y < HEIGHT; y++) {
-                res += charge(x, y);
+
+        public int step() {
+            int res = 0;
+
+            for (int x = 0; x < WIDTH; x++) {
+                for (int y = 0; y < HEIGHT; y++) {
+                    adjust(x, y);
+                }
             }
+            for (int x = 0; x < WIDTH; x++) {
+                for (int y = 0; y < HEIGHT; y++) {
+                    res += charge(x, y);
+                }
+            }
+            return res;
         }
-        return res;
+
+        int[][] grid;
+    }
+
+
+    @Override
+    public long runPartOne() {
+        var octo = new Octopuses();
+        return IntStream.range(0, 100).map(i -> octo.step()).sum();
     }
 
     @Override
-    public long runIt() {
-        //return IntStream.range(0, 100).map(i -> step()).sum();
+    public long runPartTwo() {
+        var octo = new Octopuses();
         long res = 1;
-        while (step() != 100) {
+        while (octo.step() != 100) {
             res++;
         }
         return res;

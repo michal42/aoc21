@@ -77,20 +77,32 @@ public class Day4 extends Puzzle {
                 .map(i -> i * (SIZE + 1) + 2)
                 .mapToObj(i -> new Bingo(lines.subList(i, i + SIZE)))
                 .collect(Collectors.toCollection(LinkedList::new));
-        System.out.println(bingos);
     }
 
     @Override
-    public long runIt() {
+    public long runPartOne() {
         for (var d : draws) {
-            System.out.println("draw: " + d);
+            int score = 0;
+            for (var b : bingos) {
+                if (b.draw(d)) {
+                    score = b.getScore() * d;
+                    return score;
+                }
+            }
+        }
+        return 0;
+
+    }
+
+    @Override
+    public long runPartTwo() {
+        for (var d : draws) {
             var it = bingos.listIterator();
             int score = 0;
             while (it.hasNext()) {
                 var b = it.next();
                 if (b.draw(d)) {
                     score = b.getScore() * d;
-                    System.out.println("Bingo! " + score);
                     it.remove();
                 }
             }

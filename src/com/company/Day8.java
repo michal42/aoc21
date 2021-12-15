@@ -122,8 +122,12 @@ public class Day8 extends Puzzle {
     }
 
     @Override
-    public long runIt() {
-        //return Arrays.stream(parsedlines).mapToInt(InputLine::count1478).sum();
+    public long runPartOne() {
+        return Arrays.stream(parsedlines).mapToInt(InputLine::count1478).sum();
+    }
+
+    @Override
+    public long runPartTwo() {
         return Arrays.stream(parsedlines).mapToInt(InputLine::getOutputValue).sum();
     }
 }

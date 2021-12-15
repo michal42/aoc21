@@ -11,11 +11,6 @@ public class Day3 extends Puzzle {
         width = lines.get(0).length();
     }
 
-    @Override
-    public long runIt() {
-        return runItB();
-    }
-
     private List<Integer> filterNumbers(List<Integer> input, int filter, int mask) {
         List<Integer> output = new ArrayList<>();
         for (var n : input) {
@@ -57,7 +52,8 @@ public class Day3 extends Puzzle {
         throw new IllegalArgumentException("ambiguous set");
     }
 
-    private int runItB() {
+    @Override
+    public long runPartTwo() {
         List<Integer> numbers = new ArrayList<>();
         for (var line : lines) {
             numbers.add(Integer.parseInt(line, 2));
@@ -65,7 +61,8 @@ public class Day3 extends Puzzle {
         return findValue(numbers, true) * findValue(numbers, false);
     }
 
-    private long runItA() {
+    @Override
+    public long runPartOne() {
         List<Integer> zeros = new ArrayList<>();
         List<Integer> ones = new ArrayList<>();
         for (var line : lines) {

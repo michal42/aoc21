@@ -88,7 +88,7 @@ public class Day9 extends Puzzle {
     }
 
     @Override
-    public long runIt() {
+    public long runPartTwo() {
         int maxColor = -1;
 
         for (int y = 0; y < height; y++) {
@@ -129,7 +129,8 @@ public class Day9 extends Puzzle {
         return sizes.stream().sorted(Collections.reverseOrder()).limit(3).reduce(1L, Math::multiplyExact);
     }
 
-    public long runItA() {
+    @Override
+    public long runPartOne() {
         int score = 0;
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {

@@ -65,8 +65,12 @@ public class Day10 extends Puzzle {
     }
 
     @Override
-    public long runIt() {
-        //return lines.stream().mapToLong(l -> parseLine(l, true)).sum();
+    public long runPartOne() {
+        return lines.stream().mapToLong(l -> parseLine(l, true)).sum();
+    }
+
+    @Override
+    public long runPartTwo() {
         var scores = lines.stream().mapToLong(l -> parseLine(l, false)).filter(i -> i != 0).sorted().toArray();
         return scores[scores.length / 2];
     }

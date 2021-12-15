@@ -20,6 +20,7 @@ public class Main {
             e.printStackTrace();
         }
         Puzzle p = new Day12(input);
-        System.out.println(p.runIt());
+        System.out.println(p.runPartOne());
+        System.out.println(p.runPartTwo());
     }
 }

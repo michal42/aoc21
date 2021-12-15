@@ -81,17 +81,28 @@ public class Day5 extends Puzzle {
         private int[][] data = new int[WIDTH][HEIGHT];
     }
 
-    SeaMap map = new SeaMap();
-
     public Day5(List<String> lines) {
         super(lines);
-        for (var l : lines) {
-            map.drawLine(new Line(l));
-        }
     }
 
     @Override
-    public long runIt() {
+    public  long runPartOne() {
+        var map = new SeaMap();
+        for (var linespec : lines) {
+            var l = new Line(linespec);
+            if (l.isRegular()) {
+                map.drawLine(l);
+            }
+        }
+        return map.countOverlaps();
+    }
+
+    @Override
+    public long runPartTwo() {
+        var map = new SeaMap();
+        for (var l : lines) {
+            map.drawLine(new Line(l));
+        }
         return map.countOverlaps();
     }
 }
