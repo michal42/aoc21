@@ -46,29 +46,6 @@ public class Day13 extends Puzzle {
         private final int foldLine;
     }
 
-    private static class Dot {
-        public Dot(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-
-        public static Dot parseString(String s) {
-            var parts = s.split(",", 2);
-            return new Dot(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]));
-        }
-
-        public int getX() {
-            return x;
-        }
-
-        public int getY() {
-            return y;
-        }
-
-        private final int x;
-        private final int y;
-    }
-
     private static class Paper {
         public Paper(int width, int height) {
             this.width = width;
@@ -93,7 +70,7 @@ public class Day13 extends Puzzle {
             }
         }
 
-        public void addDot(Dot dot) {
+        public void addDot(Position dot) {
             dots.add(dot);
         }
 
@@ -126,7 +103,7 @@ public class Day13 extends Puzzle {
                     a -> Arrays.stream(a).mapToObj(i -> (i > 0 ? "#" : " ")).collect(Collectors.joining())).collect(Collectors.joining("\n"));
         }
 
-        private final List<Dot> dots = new ArrayList<>();
+        private final List<Position> dots = new ArrayList<>();
         private Map<Integer, Integer> mapX = new TreeMap<>();
         private Map<Integer, Integer> mapY = new TreeMap<>();
         private int width;
@@ -135,15 +112,15 @@ public class Day13 extends Puzzle {
 
     public Day13(List<String> lines) {
         super(lines);
-        dots = lines.stream().takeWhile(Predicate.not(String::isEmpty)).map(Dot::parseString).toList();
+        dots = lines.stream().takeWhile(Predicate.not(String::isEmpty)).map(Position::parseString).toList();
         folds = lines.stream().skip(dots.size()).dropWhile(String::isEmpty).map(Fold::parseString).toList();
-        paperWidth = 1 + Math.max(dots.stream().mapToInt(Dot::getX).max().orElse(0),
+        paperWidth = 1 + Math.max(dots.stream().mapToInt(Position::getX).max().orElse(0),
                 folds.stream().filter(Fold::isVertical).mapToInt(Fold::getFoldLine).max().orElse(0));
-        paperHeight = 1 + Math.max(dots.stream().mapToInt(Dot::getY).max().orElse(0),
+        paperHeight = 1 + Math.max(dots.stream().mapToInt(Position::getY).max().orElse(0),
                               folds.stream().filter(Fold::isHorizontal).mapToInt(Fold::getFoldLine).max().orElse(0));
     }
 
-    private final List<Dot> dots;
+    private final List<Position> dots;
     private final List<Fold> folds;
     private final int paperWidth;
     private final int paperHeight;
