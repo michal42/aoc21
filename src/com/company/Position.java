@@ -1,6 +1,8 @@
 package com.company;
 
-class Position {
+import java.util.Objects;
+
+class Position implements Comparable<Position> {
     public Position(int x, int y) {
         this.x = x;
         this.y = y;
@@ -21,4 +23,25 @@ class Position {
 
     private final int x;
     private final int y;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Position position = (Position) o;
+        return x == position.x && y == position.y;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
+    }
+
+    @Override
+    public int compareTo(Position o) {
+        if (this.y == o.y) {
+            return Integer.compare(this.x, o.x);
+        }
+        return Integer.compare(this.y, o.y);
+    }
 }
